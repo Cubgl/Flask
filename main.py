@@ -1,8 +1,10 @@
+import os
+
 from flask import Flask, render_template, request, make_response, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
-from waitress import serve
+
 
 from data import db_session
 from data.news import News
@@ -175,8 +177,8 @@ def news_delete(id):
 
 def main():
     db_session.global_init("db/blogs.db")
-    # app.run(port=8080, host='127.0.0.1')
-    serve(app, host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 if __name__ == '__main__':
     main()
